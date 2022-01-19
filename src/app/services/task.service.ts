@@ -11,12 +11,12 @@ import { Observable, of } from 'rxjs';
 export class TaskService {
   constructor() {}
 
-  getTasks(): Observable<Task[]>{
-    const tasks = of(TASKS)
-    return tasks
-  }
-
-  // getTasks(): Task[] {
-  //   return TASKS;
+  // getTasks(): Observable<Task[]>{
+  //   const tasks = of(TASKS)
+  //   return tasks
   // }
+
+  getTasks(): Task[] {
+    return TASKS;
+  }
 }
