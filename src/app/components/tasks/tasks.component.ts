@@ -14,11 +14,11 @@ export class TasksComponent implements OnInit {
 
   ngOnInit(): void {
     // fires off right away
-    // this.taskService.getTasks().subscribe((tasks) => {
-    //   this.tasks = tasks;
-    // })
+    this.taskService.getTasks().subscribe((tasks) => {
+      this.tasks = tasks;
+    })
 
-    this.tasks = this.taskService.getTasks()
+    // this.tasks = this.taskService.getTasks()
   }
 
 }
