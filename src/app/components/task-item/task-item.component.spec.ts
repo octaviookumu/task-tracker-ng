@@ -20,6 +20,6 @@ describe('TaskItemComponent', () => {
   });
 
   // it('should create', () => {
-  //   expect(component).toBeDefined()
+  //   expect(component).toBeTruthy()
   // });
 });
