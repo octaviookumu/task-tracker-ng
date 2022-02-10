@@ -33,6 +33,7 @@ import { FooterComponent } from './components/footer/footer.component';
     FormsModule,
     RouterModule.forRoot(APPROUTES), // { enableTracing: true } for debugging
   ],
+  exports: [AddTaskComponent],
   providers: [],
   bootstrap: [AppComponent],
 })
