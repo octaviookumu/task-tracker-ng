@@ -50,59 +50,156 @@ describe('TaskService', () => {
 
   // });
 
-  it('#getTasks should return all tasks (HttpClient called once)', () => {
-    let expectedTasks: Task[] = [...TASKS];
-    let actualTasks: Task[] = [];
+  it('#getTasks() should return all tasks (HttpClient called once)', () => {
 
-    taskService.getTasks().subscribe({
-      next: (tasks) => {
-        actualTasks = tasks;
-      },
-      error: (error) => {
-        console.log(error);
-      },
+    // Using AAA(Arrange-Act-Assert) pattern
+    // Arrange
+    let expectedTasks: Task[] = [...TASKS];
+    // let actualTasks: Task[] = [];
+
+    // Act
+    taskService.getTasks().subscribe((tasks) => {
+
+      // Assert-1
+      expect(tasks).toEqual(expectedTasks)
     });
 
+    // Assert-2
     // It finds a request matching the given criteria and expects that there is exactly one match.
-    const request = controller.expectOne(expectedUrl);
+    const req = controller.expectOne(expectedUrl);
 
+    // Assert-3
+    expect(req.request.method).toEqual('GET')
+
+    // Assert-4
     // Answer the request so the Observable emits a value.
     // We use the request’s flush method to respond with fake data.
     // This simulates a successful “200 OK” server response.
-    request.flush(TASKS);
+    // (Ensures the correct data was returned using Subscribe callback.)
+    req.flush(expectedTasks);
 
+    // Assert-5
     // we ensure that there are no pending requests left.
     // verify guarantees that the code under test is not making excess requests
     controller.verify();
 
     // Now verify emitted valued.
-    expect(actualTasks).toEqual(expectedTasks);
+    // expect(actualTasks).toEqual(expectedTasks);
   });
 
-  it('#addTask should add a task (HttpClient called once)', () => {
-    let expectedTask: Task = {
+  it('#addTask() should add new task (HttpClient called once)', () => {
+  // AAA pattern
+    
+    // Arrange
+    const expectedTask: Task = {
       id: 2,
       text: 'Meeting at School',
       day: 'May 6th at 1:30pm',
       reminder: true,
-    };
-    let actualTask = {};
+    }
 
-    taskService.addTask(expectedTask).subscribe({
-      next: (task) => {
-        actualTask = task;
-      },
-      error: (error) => {
-        console.log(error);
-      },
-    });
+    // Act
+    taskService.addTask(expectedTask).subscribe((task) => {
+      
+      // Assert-1
+      expect(task).toEqual(expectedTask)
+    })
 
-    const request = controller.expectOne(expectedUrl);
-    request.flush(expectedTask);
-    controller.verify();
+    // Assert-2
+    const req = controller.expectOne(expectedUrl)
 
-    expect(actualTask).toEqual(expectedTask);
-  });
+    // Assert-3
+    expect(req.request.method).toBe('POST')
+
+    // Assert-4
+    req.flush(expectedTask)
+
+    // Assert-5
+    controller.verify()
+  })
+  
+  it('#deleteTask() should delete a task (HttpClient called once)', () => {
+    // Arrange
+    const expectedTask: Task = {
+      id: 2,
+      text: 'Meeting at School',
+      day: 'May 6th at 1:30pm',
+      reminder: true,
+    }
+
+    // Act
+    taskService.deleteTask(expectedTask).subscribe((task) => {
+
+      // Assert-1
+      expect(task).toEqual(expectedTask)
+    })
+
+    // Assert-2
+    const req = controller.expectOne(`${expectedUrl}/${expectedTask.id}`)
+
+    // Assert-3
+    expect(req.request.method).toBe('DELETE')
+
+    // Assert-4
+    req.flush(expectedTask)
+
+    // Assert-5
+    controller.verify()
+  })
+
+  it('#updateTaskReminder() should update the task reminder status', () => {
+    // Arrange
+    const expectedTask: Task = {
+      id: 2,
+      text: 'Meeting at School',
+      day: 'May 6th at 1:30pm',
+      reminder: true,
+    }
+
+    // Act
+    taskService.updateTaskReminder(expectedTask).subscribe((task) => {
+      
+      // Assert-1
+      expect(task).toEqual(expectedTask)
+    })
+
+    // Assert-2
+    const req = controller.expectOne(`${expectedUrl}/${expectedTask.id}`)
+    
+    // Assert-3
+    expect(req.request.method).toBe('PUT')
+
+    // Assert-4
+    req.flush(expectedTask)
+
+    // Assert-5
+    controller.verify()
+  })
+
+  // it('#addTask should add a task (HttpClient called once)', () => {
+  //   let expectedTask: Task = {
+  //     id: 2,
+  //     text: 'Meeting at School',
+  //     day: 'May 6th at 1:30pm',
+  //     reminder: true,
+  //   };
+  //   let actualTask = {};
+
+  //   taskService.addTask(expectedTask).subscribe({
+  //     next: (task) => {
+  //       actualTask = task;
+  //     },
+  //     error: (error) => {
+  //       console.log(error);
+  //     },
+  //   });
+
+  //   const request = controller.expectOne(expectedUrl);
+  //   request.flush(expectedTask);
+  //   controller.verify();
+
+  //   expect(actualTask).toEqual(expectedTask);
+  // });
 
   // it('#deleteTask should delete task (HttpClient called once)', (done: DoneFn) => {
   //   const expectedTask: Task = {
