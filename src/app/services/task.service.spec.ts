@@ -55,20 +55,22 @@ describe('TaskService', () => {
     // Using AAA(Arrange-Act-Assert) pattern
     // Arrange
     let expectedTasks: Task[] = [...TASKS];
-    // let actualTasks: Task[] = [];
+    let actualTasks: Task[] = [];
 
     // Act
     taskService.getTasks().subscribe((tasks) => {
 
       // Assert-1
-      expect(tasks).toEqual(expectedTasks)
+      // expect(tasks).toEqual(expectedTasks)
+
+      actualTasks = tasks;
     });
 
-    // Assert-2
+    // Assert-1
     // It finds a request matching the given criteria and expects that there is exactly one match.
     const req = controller.expectOne(expectedUrl);
 
-    // Assert-3
+    // Assert-2
     expect(req.request.method).toEqual('GET')
 
     // Assert-4
@@ -78,17 +80,19 @@ describe('TaskService', () => {
     // (Ensures the correct data was returned using Subscribe callback.)
     req.flush(expectedTasks);
 
-    // Assert-5
+    // Assert-3
     // we ensure that there are no pending requests left.
     // verify guarantees that the code under test is not making excess requests
     controller.verify();
 
     // Now verify emitted valued.
     // expect(actualTasks).toEqual(expectedTasks);
+
+    // Assert-4
+    expect(actualTasks).toEqual(expectedTasks)
   });
 
   it('#addTask() should add new task (HttpClient called once)', () => {
-  // AAA pattern
     
     // Arrange
     const expectedTask: Task = {
@@ -97,25 +101,31 @@ describe('TaskService', () => {
       day: 'May 6th at 1:30pm',
       reminder: true,
     }
+    let actualTask = {}
 
     // Act
     taskService.addTask(expectedTask).subscribe((task) => {
       
       // Assert-1
-      expect(task).toEqual(expectedTask)
+      // expect(task).toEqual(expectedTask)
+
+      actualTask = task
     })
 
-    // Assert-2
+    // Assert-1
     const req = controller.expectOne(expectedUrl)
 
-    // Assert-3
+    // Assert-2
     expect(req.request.method).toBe('POST')
 
-    // Assert-4
+    // Assert-3
     req.flush(expectedTask)
 
-    // Assert-5
+    // Assert-4
     controller.verify()
+
+    // Assert-5
+    expect(actualTask).toEqual(expectedTask)
   })
   
   it('#deleteTask() should delete a task (HttpClient called once)', () => {
@@ -126,25 +136,31 @@ describe('TaskService', () => {
       day: 'May 6th at 1:30pm',
       reminder: true,
     }
+    let actualTask = {}
 
     // Act
     taskService.deleteTask(expectedTask).subscribe((task) => {
 
       // Assert-1
-      expect(task).toEqual(expectedTask)
+      // expect(task).toEqual(expectedTask)
+
+      actualTask = task;
     })
 
-    // Assert-2
+    // Assert-1
     const req = controller.expectOne(`${expectedUrl}/${expectedTask.id}`)
 
-    // Assert-3
+    // Assert-2
     expect(req.request.method).toBe('DELETE')
 
-    // Assert-4
+    // Assert-3
     req.flush(expectedTask)
 
-    // Assert-5
+    // Assert-4
     controller.verify()
+
+    // Assert-5
+    expect(actualTask).toEqual(expectedTask)
   })
 
   it('#updateTaskReminder() should update the task reminder status', () => {
@@ -155,25 +171,31 @@ describe('TaskService', () => {
       day: 'May 6th at 1:30pm',
       reminder: true,
     }
+    let actualTask = {}
 
     // Act
     taskService.updateTaskReminder(expectedTask).subscribe((task) => {
       
       // Assert-1
-      expect(task).toEqual(expectedTask)
+      // expect(task).toEqual(expectedTask)
+
+      actualTask = task;
     })
 
-    // Assert-2
+    // Assert-1
     const req = controller.expectOne(`${expectedUrl}/${expectedTask.id}`)
     
-    // Assert-3
+    // Assert-2
     expect(req.request.method).toBe('PUT')
 
-    // Assert-4
+    // Assert-3
     req.flush(expectedTask)
 
-    // Assert-5
+    // Assert-4
     controller.verify()
+
+    // Assert-5
+    expect(actualTask).toEqual(expectedTask)
   })
 
   // it('#addTask should add a task (HttpClient called once)', () => {
