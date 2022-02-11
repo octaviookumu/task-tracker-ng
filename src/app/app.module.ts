@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 // import { RouterModule, Routes } from '@angular/router';
 
@@ -15,6 +15,7 @@ import { AddTaskComponent } from './components/add-task/add-task.component';
 import { AboutComponent } from './components/about/about.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { AppRoutingModule } from './app-routing.module';
+import { CommonInterceptor } from './interceptor/common.interceptor';
 
 @NgModule({
   declarations: [
@@ -35,7 +36,9 @@ import { AppRoutingModule } from './app-routing.module';
     AppRoutingModule, // { enableTracing: true } for debugging
   ],
   exports: [AddTaskComponent],
-  providers: [],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: CommonInterceptor, multi: true }
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

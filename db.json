@@ -7,16 +7,10 @@
       "reminder": true
     },
     {
-      "id": 2,
-      "text": "Meeting at School",
-      "day": "May 6th at 1:30pm",
-      "reminder": true
-    },
-    {
-      "id": 3,
-      "text": "Food Shopping",
-      "day": "May 7th at 12:30pm",
-      "reminder": false
+      "text": "Go home",
+      "day": "Friday 5:08 pm",
+      "reminder": false,
+      "id": 4
     }
   ]
 }
