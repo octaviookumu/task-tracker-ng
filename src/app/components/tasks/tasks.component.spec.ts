@@ -3,6 +3,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { TasksComponent } from './tasks.component';
 
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('TasksComponent', () => {
   let component: TasksComponent;
@@ -11,6 +12,7 @@ describe('TasksComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [TasksComponent],
+      schemas: [NO_ERRORS_SCHEMA],
       imports: [ HttpClientTestingModule ],
     })
     .compileComponents();
