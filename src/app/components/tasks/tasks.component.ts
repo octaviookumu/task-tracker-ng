@@ -18,8 +18,6 @@ export class TasksComponent implements OnInit {
     this.taskService.getTasks().subscribe((tasks) => {
       this.tasks = tasks;
     });
-
-    // this.tasks = this.taskService.getTasks()
   }
 
   deleteTask(task: Task) {
@@ -38,10 +36,6 @@ export class TasksComponent implements OnInit {
   }
 
   receiveInParent(task: Task) {
-    // console.log("IN PARENT", task)
     this.taskToChild = task;
-    return task;
   }
-
-
 }
