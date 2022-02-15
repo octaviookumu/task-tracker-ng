@@ -9,6 +9,7 @@ import { TaskService } from '../../services/task.service';
 })
 export class TasksComponent implements OnInit {
   tasks: Task[] = [];
+  taskToChild!: Task;
 
   constructor(private taskService: TaskService) {}
 
@@ -34,6 +35,12 @@ export class TasksComponent implements OnInit {
 
   addTask(task: Task) {
     this.taskService.addTask(task).subscribe((task) => this.tasks.push(task))
+  }
+
+  receiveInParent(task: Task) {
+    // console.log("IN PARENT", task)
+    this.taskToChild = task;
+    return task;
   }
 
 
