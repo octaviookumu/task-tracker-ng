@@ -8,7 +8,7 @@ export class UiService {
   private showAddTask: boolean = false;
   private subject = new Subject<any>()
   behaviourSubject = new BehaviorSubject<boolean>(false)
-  editorIsOpen: boolean = false;
+  isOpenByEdit: boolean = false;
 
   constructor() { }
 
@@ -16,6 +16,18 @@ export class UiService {
   // we call this when we click the button
   toggleAddTask(): void {
     this.showAddTask = !this.showAddTask
+
+    // checks whether form is opened by editbutton or add/close button
+    if (this.isOpenByEdit == true) {
+      this.showAddTask = false;
+      this.isOpenByEdit = false
+    }
+    if (this.showAddTask == true) this.isOpenByEdit = false;
+    // checks whether form is opened by editbutton or add/close button
+
+
+    console.log("SHOW THIS ONE", this.isOpenByEdit)
+    console.log("SHOW TASK", this.showAddTask)
     this.subject.next(this.showAddTask)
   }
 
@@ -27,7 +39,8 @@ export class UiService {
 
   editorEmitter() {
     this.behaviourSubject.next(true)
-    this.subject.next(true)
+    this.isOpenByEdit = true;
+    this.subject.next(this.isOpenByEdit)
   }
   
   editorOpener(): Observable<boolean>{
