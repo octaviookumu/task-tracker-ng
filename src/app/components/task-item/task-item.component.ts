@@ -41,5 +41,9 @@ export class TaskItemComponent implements OnInit {
   onEdit(task: Task) {
     // this.uiService.toggleAddTask();
     this.sendToParent.emit(task)
+    this.uiService.editorEmitter()
+    this.uiService.editorOpener().subscribe(res => {
+      console.log("SHOW ME", res)
+    })
   }
 }

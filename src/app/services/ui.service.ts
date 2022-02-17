@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable, Subject } from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -7,6 +7,8 @@ import { Observable, Subject } from 'rxjs';
 export class UiService {
   private showAddTask: boolean = false;
   private subject = new Subject<any>()
+  behaviourSubject = new BehaviorSubject<boolean>(false)
+  editorIsOpen: boolean = false;
 
   constructor() { }
 
@@ -23,5 +25,13 @@ export class UiService {
     return this.subject.asObservable();
   }
 
+  editorEmitter() {
+    this.behaviourSubject.next(true)
+    this.subject.next(true)
+  }
+  
+  editorOpener(): Observable<boolean>{
+    return this.behaviourSubject.asObservable()
+  }
 
 }
