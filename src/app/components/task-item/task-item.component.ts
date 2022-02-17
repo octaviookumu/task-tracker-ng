@@ -1,6 +1,8 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import {Task} from '../../Task'
 import { faTimes, faPen } from '@fortawesome/free-solid-svg-icons';
+import { UiService } from 'src/app/services/ui.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-task-item',
@@ -16,7 +18,14 @@ export class TaskItemComponent implements OnInit {
   faTimes = faTimes;
   faPen = faPen;
 
-  constructor() {}
+  showAddTask!: boolean;
+  subscription: Subscription;
+
+  constructor(private uiService: UiService) {
+    this.subscription = this.uiService
+      .onToggle()
+      .subscribe((value) => (this.showAddTask = value));
+  }
 
   ngOnInit(): void {
   }
@@ -30,6 +39,7 @@ export class TaskItemComponent implements OnInit {
   }
 
   onEdit(task: Task) {
+    // this.uiService.toggleAddTask();
     this.sendToParent.emit(task)
   }
 }
