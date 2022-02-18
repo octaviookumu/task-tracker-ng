@@ -1,6 +1,9 @@
-<app-add-task (onAddTask)="addTask($event)" [taskFromParent]="taskToChild"></app-add-task>
+<app-add-task
+  (onAddTask)="addTask($event)"
+  [taskFromParent]="taskToChild"
+></app-add-task>
 <app-task-item
-  *ngFor="let task of tasks"
+  *ngFor="let task of tasks$ | async"
   [task]="task"
   (onDeleteTask)="deleteTask(task)"
   (onToggleReminder)="toggleReminder(task)"

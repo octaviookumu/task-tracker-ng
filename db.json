@@ -11,6 +11,12 @@
       "day": "Friday 5:08 pm",
       "reminder": false,
       "id": 4
+    },
+    {
+      "text": "Learn Rxjs",
+      "day": "Friday 11:40 pm",
+      "reminder": true,
+      "id": 5
     }
   ]
 }

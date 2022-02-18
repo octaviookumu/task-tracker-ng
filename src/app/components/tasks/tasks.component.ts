@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Task } from '../../Task';
 import { TaskService } from '../../services/task.service';
+import { Observable, pipe, take } from 'rxjs';
 
 @Component({
   selector: 'app-tasks',
@@ -8,22 +9,30 @@ import { TaskService } from '../../services/task.service';
   styleUrls: ['./tasks.component.css'],
 })
 export class TasksComponent implements OnInit {
-  tasks: Task[] = [];
+
+  tasks$ : Observable<Task[]> = new Observable<Task[]> ()
   taskToChild!: Task;
 
   constructor(private taskService: TaskService) {}
 
   ngOnInit(): void {
     // fires off right away
-    this.taskService.getTasks().subscribe((tasks) => {
-      this.tasks = tasks;
-    });
+    this.getTasks()
+  }
+
+  getTasks() {
+    this.tasks$ = this.taskService.getTasks();
   }
 
   deleteTask(task: Task) {
-    this.taskService.deleteTask(task).subscribe(() => {
-      this.tasks = this.tasks.filter((t) => t.id !== task.id);
-    });
+    this.taskService.deleteTask(task)
+      .pipe(
+        take(1)
+      )
+      .subscribe((task) => {
+        console.log("DELETED", task)
+        this.getTasks()
+      });
   }
 
   toggleReminder(task: Task) {
@@ -32,7 +41,14 @@ export class TasksComponent implements OnInit {
   }
 
   addTask(task: Task) {
-    this.taskService.addTask(task).subscribe((task) => this.tasks.push(task))
+    this.taskService.addTask(task)
+    .pipe(
+        take(1)
+      )
+      .subscribe((task) => {
+        console.log("ADDED", task)
+        this.getTasks()
+      })
   }
 
   receiveInParent(task: Task) {
