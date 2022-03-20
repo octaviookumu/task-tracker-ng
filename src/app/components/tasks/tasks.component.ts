@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Task } from '../../Task';
 import { TaskService } from '../../services/task.service';
-import { Observable, pipe, Subject, take, takeUntil } from 'rxjs';
+import { catchError, Observable, pipe, Subject, take, takeUntil, tap } from 'rxjs';
 
 @Component({
   selector: 'app-tasks',
@@ -10,7 +10,7 @@ import { Observable, pipe, Subject, take, takeUntil } from 'rxjs';
 })
 export class TasksComponent implements OnInit {
 
-  tasks$ : Observable<Task[]> = new Observable<Task[]> ()
+  // tasks$ : Observable<Task[]> = new Observable<Task[]> ()
   taskToChild!: Task;
   destroy$ = new Subject<any>()
 
@@ -18,13 +18,18 @@ export class TasksComponent implements OnInit {
 
   ngOnInit(): void {
     // fires off right away
-    this.getTasks()
+    // this.getTasks()
   }
 
   getTasks() {
     this.tasks$ = this.taskService.getTasks();
   }
-
+  
+  tasks$ = this.taskService.tasks$
+    .pipe(
+    tap(console.log)
+  )
+  
   deleteTask(task: Task) {
     this.taskService.deleteTask(task)
       .pipe(
